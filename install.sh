@@ -82,23 +82,92 @@ chmod +x "$INSTALL_DIR/quickicon"
 
 ln -sf "$INSTALL_DIR/quickicon" "$BIN_DIR/quickicon"
 
+detect_and_update_shell() {
+    local shell_rc=""
+    local current_shell=""
+    
+    if [ -n "$ZSH_VERSION" ]; then
+        current_shell="zsh"
+        shell_rc="$HOME/.zshrc"
+    elif [ -n "$BASH_VERSION" ]; then
+        current_shell="bash"
+        if [ "$OS" = "macos" ]; then
+            shell_rc="$HOME/.bash_profile"
+        else
+            shell_rc="$HOME/.bashrc"
+        fi
+    else
+        current_shell=$(basename "$SHELL")
+        case $current_shell in
+            zsh)
+                shell_rc="$HOME/.zshrc"
+                ;;
+            bash)
+                shell_rc="$HOME/.bash_profile"
+                ;;
+            *)
+                shell_rc="$HOME/.profile"
+                ;;
+        esac
+    fi
+    
+    echo "$shell_rc"
+}
+
+update_path_in_shell() {
+    local shell_rc="$1"
+    local path_line="export PATH=\"\$PATH:$BIN_DIR\""
+    
+    touch "$shell_rc"
+    
+    if grep -q "export PATH.*$BIN_DIR" "$shell_rc" 2>/dev/null; then
+        echo -e "${GREEN}✓ PATH already configured in $shell_rc${NC}"
+        return 0
+    fi
+    
+    echo "" >> "$shell_rc"
+    echo "# QuickIcon CLI - https://github.com/azeezabass2005/quickicon" >> "$shell_rc"
+    echo "$path_line" >> "$shell_rc"
+    
+    echo -e "${GREEN}✓ Added $BIN_DIR to PATH in $shell_rc${NC}"
+    return 1
+}
+
+try_system_install() {
+    if [ "$OS" = "macos" ] && [ -w "/usr/local/bin" ]; then
+        echo "Installing system-wide to /usr/local/bin..."
+        ln -sf "$INSTALL_DIR/quickicon" "/usr/local/bin/quickicon"
+        echo -e "${GREEN}✓ Installed system-wide to /usr/local/bin${NC}"
+        return 0
+    fi
+    return 1
+}
+
 echo -e "${GREEN}✓ Installation complete!${NC}"
 echo ""
 echo "QuickIcon has been installed to: $INSTALL_DIR"
 echo "Symlink created at: $BIN_DIR/quickicon"
 echo ""
 
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
-    echo -e "${YELLOW}⚠ Warning: $BIN_DIR is not in your PATH${NC}"
-    echo ""
-    echo "Add the following line to your shell configuration file:"
-    echo "  (~/.bashrc, ~/.zshrc, ~/.profile, etc.)"
-    echo ""
-    echo -e "${GREEN}export PATH=\"\$PATH:$BIN_DIR\"${NC}"
-    echo ""
-    echo "Then restart your shell or run: source ~/.bashrc (or ~/.zshrc)"
+if try_system_install; then
+    echo -e "${GREEN}🎉 You can now use 'quickicon' command!${NC}"
 else
-    echo -e "${GREEN}You can now use 'quickicon' command!${NC}"
+    SHELL_RC=$(detect_and_update_shell)
+    echo "Detected shell configuration: $SHELL_RC"
+    
+    if update_path_in_shell "$SHELL_RC"; then
+        echo -e "${GREEN}🎉 You can now use 'quickicon' command!${NC}"
+    else
+        echo ""
+        echo -e "${YELLOW}⚠ Shell configuration updated!${NC}"
+        echo ""
+        echo "To use quickicon immediately, run:"
+        echo -e "  ${GREEN}source $SHELL_RC${NC}"
+        echo ""
+        echo "Or simply restart your terminal."
+        echo ""
+        echo -e "${GREEN}After that, you can use 'quickicon' command!${NC}"
+    fi
 fi
 
 echo ""
