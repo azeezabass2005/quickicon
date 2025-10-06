@@ -1,4 +1,4 @@
-use std::{io::Cursor, path::PathBuf};
+use std::{path::PathBuf};
 
 use regex::Regex;
 
