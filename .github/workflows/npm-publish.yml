@@ -37,9 +37,10 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             build: yarn build --target aarch64-unknown-linux-gnu
-          - host: ubuntu-latest
-            target: aarch64-unknown-linux-musl
-            build: yarn build --target aarch64-unknown-linux-musl
+          # Having little issues with the musl ring library, I will come back to this later, for now Alipine Users should just use gnu version. 
+          # - host: ubuntu-latest
+          #   target: aarch64-unknown-linux-musl
+          #   build: yarn build --target aarch64-unknown-linux-musl
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             build: yarn build --target armv7-unknown-linux-gnueabihf
