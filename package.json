@@ -10,9 +10,7 @@
   "files": [
     "index.js",
     "index.d.ts",
-    "cli.js",
-    "README.md",
-    "LICENSE"
+    "cli.js"
   ],
   "scripts": {
     "artifacts": "napi artifacts",
@@ -35,38 +33,8 @@
     "type": "git",
     "url": "https://github.com/azeezabass2005/quickicon.git"
   },
-  "bugs": {
-    "url": "https://github.com/azeezabass2005/quickicon/issues"
-  },
-  "homepage": "https://github.com/azeezabass2005/quickicon#readme",
   "devDependencies": {
     "@napi-rs/cli": "^2.18.0"
-  },
-  "napi": {
-    "name": "quickicon",
-    "triples": {
-      "defaults": true,
-      "additional": [
-        "x86_64-unknown-linux-musl",
-        "aarch64-unknown-linux-gnu",
-        "aarch64-apple-darwin",
-        "aarch64-linux-android",
-        "x86_64-unknown-freebsd",
-        "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
-        "armv7-unknown-linux-gnueabihf"
-      ]
-    }
-  },
-  "optionalDependencies": {
-    "@quickicon/linux-x64-gnu": "0.1.0",
-    "@quickicon/linux-x64-musl": "0.1.0",
-    "@quickicon/linux-arm64-gnu": "0.1.0",
-    "@quickicon/linux-arm64-musl": "0.1.0",
-    "@quickicon/darwin-x64": "0.1.0",
-    "@quickicon/darwin-arm64": "0.1.0",
-    "@quickicon/win32-x64-msvc": "0.1.0",
-    "@quickicon/win32-arm64-msvc": "0.1.0"
   },
   "engines": {
     "node": ">= 16"
