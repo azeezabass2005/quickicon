@@ -56,17 +56,6 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Install system dependencies
-        run: |
-          if [ "${{ matrix.settings.host }}" = "ubuntu-latest" ]; then
-            sudo apt-get update
-            sudo apt-get install -y pkg-config libssl-dev
-          elif [ "${{ matrix.settings.host }}" = "macos-latest" ]; then
-            brew install openssl pkg-config
-          elif [ "${{ matrix.settings.host }}" = "windows-latest" ]; then
-            choco install openssl
-          fi
-
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -84,19 +73,15 @@ jobs:
         if: contains(matrix.settings.target, 'musl')
         run: |
           sudo apt-get update
-          sudo apt-get install -y musl-tools musl-dev
+          sudo apt-get install -y musl-tools
 
       - name: Setup cross-compile tools (Linux ARM)
         if: contains(matrix.settings.target, 'aarch64-unknown-linux') || contains(matrix.settings.target, 'armv7')
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf libssl-dev
+          sudo apt-get install -y gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
 
       - name: Build
-        env:
-          # Use vendored OpenSSL to avoid cross-compilation issues
-          OPENSSL_STATIC: 1
-          OPENSSL_NO_VENDOR: 0
         run: ${{ matrix.settings.build }}
         shell: bash
 
