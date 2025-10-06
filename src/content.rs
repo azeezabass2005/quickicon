@@ -16,23 +16,18 @@ pub async fn get_content(args: &Args) -> Result<String, Box<dyn std::error::Erro
 
                 let re = Regex::new(pattern)?;
                 let tag = re.captures(&body);
-                println!("This is the body from the icon fetched: {:?}", tag);
                 match tag {
                     None => {
                         return Err("There is no svg returned from the provided url".into());
                     },
                     Some(svg_tag) => {
-                        let content = svg_tag[0].to_string();
-                        println!("This is the tag from regex: {}", content);
                         return Ok(svg_tag[0].to_string());
                     }
                 }
             } else {
                 let path = PathBuf::try_from(path).unwrap();
-                println!("this is the path {:?}, {}, {}", &args.path, path.ends_with(".svg"), path.ends_with(".txt"));
                 
                 if let Some(extension) = path.extension() {
-                    println!("The file extension is {:?}", &extension);
                     if extension == "svg" || extension == "txt" {
                         match fs::read_to_string(path) {
                             Ok(content) => {
