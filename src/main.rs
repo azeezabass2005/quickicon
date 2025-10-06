@@ -14,9 +14,8 @@ mod default;
 
 #[tokio::main]
 async fn main() {
-    println!("{}", style(QUICK_ICON).blue());
-
     let args = Args::parse();
+    println!("{}", style(QUICK_ICON).blue());
     let config = default::get_and_save_config(&args).unwrap();
 
     match content::get_content(&args).await {

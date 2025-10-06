@@ -211,11 +211,16 @@ impl SvgToReact {
     fn wrap_in_component(&self, processed_svg: &str) -> String {
         let indented_svg = self.indent_svg(processed_svg, 4);
 
-        let mut import_line = r#"import React, {SVGProps} from "react";"#;
-        let mut props_type = r#" : { size: number, color: string, props: SVGProps<SVGSVGElement> }"#;
+        let mut import_line = format!(r#"import React, {{SVGProps}} from "react";
+interface {}Props extends SVGProps<SVGSVGElement> {{
+    size?: `${{number}}` | number;
+    color?: string;
+}}
+        "#, self.component_name);
+        let mut props_type = format!(r#" : {}Props"#, self.component_name);
         if self.config.is_javascript {
-            import_line = r#"import React from "react""#;
-            props_type = "";
+            import_line = r#"import React from "react""#.to_string();
+            props_type = "".to_string();
         }
         
         format!(
@@ -224,7 +229,7 @@ impl SvgToReact {
 const {} = ({{ 
     size = 24, 
     color = '#111827', 
-    ...props 
+    ...props
 }}{}) => {{
     return (
 {}
@@ -236,12 +241,14 @@ export default {};
 // Usage examples:
 // <{} />
 // <{} size={{32}} color="#3B82F6" />
+// <{} size="32" color="#3B82F6" />
 // <{} className="hover:opacity-80" />
 "##,
             import_line,
             self.component_name,
             props_type,
             indented_svg,
+            self.component_name,
             self.component_name,
             self.component_name,
             self.component_name,

@@ -115,9 +115,8 @@ export default MyIcon;
 |------|-------|-------------|---------|
 | `--icon-name` | `-n` | Name of the React component (required) | - |
 | `--path` | `-p` | Path to local file or remote URL | Clipboard |
-| `--destination` | `-d` | Output directory for the component | `./src/assets/icon` |
-| `--javascript` | - | Generate JavaScript instead of TypeScript | TypeScript |
-| `--no-javascript` | - | Explicitly use TypeScript | TypeScript |
+| `--destination` | `-d` | Output directory for the component | `./public/assets/icon` |
+| `--language` | -l | To change the language to ts or js | `ts` |
 | `--default` | `-D` | Save settings to `quickicon.json` | false |
 
 ### Examples
@@ -129,7 +128,7 @@ quickicon --icon-name UserIcon
 
 **Generate JavaScript component:**
 ```bash
-quickicon --icon-name UserIcon --javascript
+quickicon --icon-name UserIcon --language javascript
 ```
 
 **Custom destination folder:**
@@ -160,7 +159,7 @@ QuickIcon can save your preferences in a `quickicon.json` file in your project r
 
 Use the `--default` flag to save current settings:
 ```bash
-quickicon --icon-name MyIcon --destination ./src/icons --javascript --default
+quickicon --icon-name MyIcon --destination ./src/icons --language javascript --default
 ```
 
 This creates `quickicon.json`:

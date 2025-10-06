@@ -13,7 +13,7 @@ pub struct Config {
 /// Get the config if it's not provided and saves it as default if specified in the argument
 pub fn get_and_save_config(args: &Args) -> Result<Config, Box<dyn std::error::Error>> {
     let config_file_path = PathBuf::from("./quickicon.json");
-    let default_destination = PathBuf::from("./src/assets/icon");
+    let default_destination = PathBuf::from("./public/assets/icon");
     
     let mut config = if config_file_path.exists() {
         serde_json::from_str(&fs::read_to_string(&config_file_path)?).unwrap_or_else(|_| Config {
@@ -30,8 +30,9 @@ pub fn get_and_save_config(args: &Args) -> Result<Config, Box<dyn std::error::Er
     if let Some(dest) = &args.destination {
         config.destination_folder = PathBuf::from(dest);
     }
-    if let Some(js) = args.javascript {
-        config.is_javascript = js;
+
+    if let Some(lang) = &args.language {
+        config.is_javascript = lang == "javascript";
     }
     
     if args.default {

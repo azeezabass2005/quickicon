@@ -2,12 +2,11 @@ use clap::{Parser};
 use crate::parser::{directory_parser};
 
 #[derive(Parser, PartialEq, Debug)]
+#[command(version)]
 pub struct Args {
-
-    /// The programming language if it is JavaScript (default language is Typescript)
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    #[arg(long = "no-javascript", action = clap::ArgAction::SetFalse)]
-    pub javascript: Option<bool>,
+    /// Use JavaScript instead of TypeScript (use --language=typescript to switch back)
+    #[arg(long, value_name = "LANG", value_parser = ["typescript", "javascript"])]
+    pub language: Option<String>,
 
     /// The name of the react component for the icon e.g EyeIcon
     #[arg(
