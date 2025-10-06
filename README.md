@@ -3,10 +3,11 @@
 > Transform SVG files into React components instantly from your clipboard, local files, or remote URLs.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/quickicon.svg)](https://www.npmjs.com/package/quickicon)
 
 ## 🚀 What is QuickIcon?
 
-QuickIcon is a command-line tool that converts SVG files into ready-to-use React components with proper TypeScript typings, customizable props, and automatic attribute conversion. Stop manually converting SVG attributes to camelCase or wrapping SVGs in component boilerplate!
+QuickIcon is a blazingly fast command-line tool built with Rust that converts SVG files into ready-to-use React components with proper TypeScript typings, customizable props, and automatic attribute conversion. Stop manually converting SVG attributes to camelCase or wrapping SVGs in component boilerplate!
 
 ### ✨ Features
 
@@ -17,30 +18,42 @@ QuickIcon is a command-line tool that converts SVG files into ready-to-use React
 - 🎨 **Smart Defaults** - Automatic size and color props with sensible defaults
 - 📝 **TypeScript & JavaScript** - Full support for both languages
 - 💾 **Configuration Persistence** - Remember your preferences with `quickicon.json`
-- 🔄 **Attribute Conversion** - Automatic HTML-to-JSX attribute transformation
+- 🔄 **Attribute Conversion** - Automatic HTML-to-JSX attribute transformation (40+ attributes)
+- ⚡ **Blazingly Fast** - Built with Rust for maximum performance
+- 🌍 **Cross-Platform** - Works on Linux, macOS, and Windows
 
 ## 📦 Installation
 
-### Prerequisites
+### Quick Install (Recommended)
 
-- Rust toolchain (1.70.0 or higher)
-
-### From Source
-
+#### Linux / macOS
 ```bash
-# Clone the repository
-git clone https://github.com/azeezabass2005/quickicon.git
-cd quickicon
-
-# Build and install
-cargo install --path .
+curl -fsSL https://raw.githubusercontent.com/yourusername/quickicon/main/install.sh | bash
 ```
 
-### From crates.io (Coming Soon)
+#### Windows (PowerShell - Run as Administrator)
+```powershell
+irm https://raw.githubusercontent.com/yourusername/quickicon/main/install.ps1 | iex
+```
+
+### Via npm (All Platforms)
 
 ```bash
-cargo install quickicon
+npm install -g quickicon
 ```
+
+Or with yarn:
+```bash
+yarn global add quickicon
+```
+
+### Other Installation Methods
+
+See [INSTALLATION.md](INSTALLATION.md) for:
+- Manual installation
+- Building from source
+- Platform-specific instructions
+- Troubleshooting
 
 ## 🎯 Quick Start
 
@@ -87,6 +100,11 @@ const MyIcon = ({
 };
 
 export default MyIcon;
+
+// Usage examples:
+// <MyIcon />
+// <MyIcon size={32} color="#3B82F6" />
+// <MyIcon className="hover:opacity-80" />
 ```
 
 ## 📖 Command Reference
@@ -129,6 +147,11 @@ quickicon --icon-name UserIcon --destination ./src/icons --default
 quickicon -n GithubIcon -p https://api.iconify.design/mdi/github.svg
 ```
 
+**Using npx (no global install needed):**
+```bash
+npx quickicon --icon-name MyIcon --path ./icon.svg
+```
+
 ## ⚙️ Configuration
 
 QuickIcon can save your preferences in a `quickicon.json` file in your project root.
@@ -161,12 +184,12 @@ QuickIcon will use your saved preferences automatically.
 
 QuickIcon performs several transformations:
 
-1. **Attribute Conversion**: Converts SVG attributes to React-compatible camelCase
+1. **Attribute Conversion**: Converts 40+ SVG attributes to React-compatible camelCase
    - `fill-rule` → `fillRule`
    - `stroke-width` → `strokeWidth`
    - `clip-path` → `clipPath`
    - `class` → `className`
-   - And 40+ more attributes
+   - And many more...
 
 2. **Style Conversion**: Transforms inline styles to React format
    - `style="background-color: red"` → `style={{ backgroundColor: 'red' }}`
@@ -180,7 +203,7 @@ QuickIcon performs several transformations:
    - `stroke="#123456"` → `stroke={color}`
 
 5. **Props Spreading**: Adds flexibility
-   - Adds `{...props}` to root SVG element
+   - Adds `{...props}` to root SVG element for maximum customization
 
 ## 🛡️ Supported Formats
 
@@ -194,31 +217,53 @@ QuickIcon performs several transformations:
 - ✅ TypeScript (`.tsx`)
 - ✅ JavaScript (`.jsx`)
 
-### Supported Frameworks
+### Framework Support
 - ✅ React (v16.8+)
-- ⏳ Vue (planned)
-- ⏳ Svelte (planned)
-- ⏳ Angular (planned)
+- ⏳ Vue (coming soon)
+- ⏳ Svelte (coming soon)
+- ⏳ Angular (coming soon)
+
+**Note:** Version 0.1.0 focuses on React. Support for additional frameworks is planned for future releases. Star the repo to stay updated!
+
+## 🎬 Demo
+
+```bash
+# Copy this SVG:
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#000000" stroke="#000000" stroke-width="2"/>
+</svg>
+
+# Run:
+quickicon --icon-name RocketIcon
+
+# Output: src/assets/icon/RocketIcon.tsx created! ✨
+```
 
 ## 🐛 Troubleshooting
 
 ### "Your clipboard text content is not a valid svg"
 - Ensure you've copied valid SVG markup
 - Check that the SVG starts with `<svg` and ends with `</svg>`
+- The content must be well-formed XML
 
 ### "An icon already exists at..."
-- A component with that name already exists
+- A component with that name already exists at the destination
 - Choose a different name or delete the existing file
+- Or use a different destination folder with `--destination`
 
-### "An error occurred while reading the provided svg file"
-- Check file path is correct
-- Ensure file has `.svg` or `.txt` extension
-- Verify file permissions
+### "Command not found" after installation
+- **Linux/macOS**: Add `$HOME/.local/bin` to your PATH
+- **Windows**: Restart your terminal after installation
+- See [INSTALLATION.md](INSTALLATION.md) for detailed troubleshooting
 
-### "There is no svg returned from the provided url"
-- URL must return valid HTML/SVG content
-- Check network connection
-- Verify URL is accessible
+### Clipboard issues on Linux
+Install clipboard utilities:
+```bash
+sudo apt-get install xclip xsel  # For X11
+sudo apt-get install wl-clipboard # For Wayland
+```
+
+For more troubleshooting, see [INSTALLATION.md](INSTALLATION.md#troubleshooting).
 
 ## 🤝 Contributing
 
@@ -234,7 +279,7 @@ Contributions are welcome! Here's how you can help:
 
 ```bash
 # Clone your fork
-git clone https://github.com/azeezabass2005/quickicon.git
+git clone https://github.com/yourusername/quickicon.git
 cd quickicon
 
 # Build
@@ -245,6 +290,10 @@ cargo test
 
 # Run locally
 cargo run -- --icon-name TestIcon --path ./test.svg
+
+# Build for npm
+npm install
+npm run build
 ```
 
 ## 📝 Roadmap
@@ -258,6 +307,17 @@ cargo run -- --icon-name TestIcon --path ./test.svg
 - [ ] RGB/RGBA color support
 - [ ] SVG optimization options
 - [ ] GitHub Action integration
+- [ ] VS Code extension
+- [ ] Homebrew formula
+
+## 🏗️ Tech Stack
+
+- **Language**: Rust 🦀
+- **CLI**: [clap](https://github.com/clap-rs/clap)
+- **Clipboard**: [arboard](https://github.com/1Password/arboard)
+- **HTTP**: [reqwest](https://github.com/seanmonstar/reqwest)
+- **Regex**: [regex](https://github.com/rust-lang/regex)
+- **Node Bindings**: [napi-rs](https://napi.rs/)
 
 ## 📄 License
 
@@ -265,18 +325,31 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👏 Acknowledgments
 
-- Built with [Rust](https://www.rust-lang.org/)
-- Uses [clap](https://github.com/clap-rs/clap) for CLI parsing
-- SVG parsing and manipulation with [regex](https://github.com/rust-lang/regex)
+- Built with [Rust](https://www.rust-lang.org/) for blazing performance
+- Inspired by the need to speed up React development workflows
+- Thanks to all contributors and users!
 
-## 📧 Support
+## 📧 Support & Community
 
-- 🐛 [Report a Bug](https://github.com/azeezabass2005/quickicon/issues)
-- 💡 [Request a Feature](https://github.com/azeezabass2005/quickicon/issues)
-- 💬 [Discussions](https://github.com/azeezabass2005/quickicon/discussions)
+- 🐛 [Report a Bug](https://github.com/yourusername/quickicon/issues/new?labels=bug)
+- 💡 [Request a Feature](https://github.com/yourusername/quickicon/issues/new?labels=enhancement)
+- 💬 [Discussions](https://github.com/yourusername/quickicon/discussions)
+- 📖 [Documentation](https://github.com/yourusername/quickicon/wiki)
+
+## 📊 Stats
+
+![GitHub stars](https://img.shields.io/github/stars/yourusername/quickicon?style=social)
+![GitHub forks](https://img.shields.io/github/forks/yourusername/quickicon?style=social)
+![npm downloads](https://img.shields.io/npm/dm/quickicon)
 
 ---
 
-**Made with ❤️ by Fola**
+**Made with ❤️ and ☕ by [Your Name]**
 
-If QuickIcon saves you time, consider giving it a ⭐️ on GitHub!
+If QuickIcon saves you time, consider:
+- ⭐ Starring the repo
+- 🐦 Sharing on Twitter
+- 💼 Sharing on LinkedIn
+- ☕ [Buying me a coffee](https://buymeacoffee.com/yourusername)
+
+**QuickIcon** - Because life's too short for manual SVG conversion! ⚡
