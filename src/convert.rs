@@ -212,11 +212,11 @@ impl SvgToReact {
         let indented_svg = self.indent_svg(processed_svg, 4);
 
         let mut import_line = format!(r#"import React, {{SVGProps}} from "react";
+
 interface {}Props extends SVGProps<SVGSVGElement> {{
     size?: `${{number}}` | number;
     color?: string;
-}}
-        "#, self.component_name);
+}}"#, self.component_name);
         let mut props_type = format!(r#" : {}Props"#, self.component_name);
         if self.config.is_javascript {
             import_line = r#"import React from "react""#.to_string();
