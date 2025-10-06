@@ -82,7 +82,22 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
 
       - name: Build
-        run: ${{ matrix.settings.build }}
+        run: |
+          # Set environment variables for OpenSSL vendoring
+          export OPENSSL_STATIC=1
+          export OPENSSL_NO_VENDOR=0
+          export PKG_CONFIG_ALLOW_CROSS=1
+          
+          # For musl and ARM targets, force vendored OpenSSL
+          if [[ "${{ matrix.settings.target }}" == *"musl"* ]] || 
+             [[ "${{ matrix.settings.target }}" == *"aarch64"* ]] || 
+             [[ "${{ matrix.settings.target }}" == *"armv7"* ]]; then
+            echo "Using vendored OpenSSL for cross-compilation target: ${{ matrix.settings.target }}"
+            export OPENSSL_NO_VENDOR=0
+            export RUSTFLAGS="-C target-feature=-crt-static"
+          fi
+          
+          ${{ matrix.settings.build }}
         shell: bash
 
       - name: Upload artifact

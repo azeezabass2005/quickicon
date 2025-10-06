@@ -80,7 +80,16 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }}
+        run: |
+          export OPENSSL_STATIC=1
+          export PKG_CONFIG_ALLOW_CROSS=1
+          
+          if [[ "${{ matrix.target }}" == "aarch64-unknown-linux-gnu" ]]; then
+            echo "Using vendored OpenSSL for aarch64 cross-compilation"
+            export OPENSSL_NO_VENDOR=0
+          fi
+          
+          cargo build --release --target ${{ matrix.target }}
 
       - name: Prepare binary (Unix)
         if: matrix.os != 'windows-latest'
