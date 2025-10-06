@@ -78,31 +78,42 @@ jobs:
       - name: Setup musl tools (Linux musl)
         if: contains(matrix.settings.target, 'musl')
         run: |
+          sudo apt-get update
           sudo apt-get install -y musl-tools
-          # Specifically for aarch64 musl
+          # For aarch64 musl, use the correct package
           if [ "${{ matrix.settings.target }}" = "aarch64-unknown-linux-musl" ]; then
-            sudo apt-get install -y gcc-aarch64-linux-musl
+            sudo apt-get install -y musl-dev musl
           fi
 
       - name: Setup cross-compile tools (Linux ARM)
         if: contains(matrix.settings.target, 'aarch64-unknown-linux') || contains(matrix.settings.target, 'armv7')
         run: |
+          sudo apt-get update
           sudo apt-get install -y gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+          # Also install the corresponding standard libraries
+          sudo apt-get install -y libc6-dev-arm64-cross libc6-dev-armhf-cross
 
       - name: Build (Unix)
         if: runner.os != 'Windows'
         run: |
-          # For musl targets, ensure math library is linked
-          if echo "${{ matrix.settings.target }}" | grep "musl" > /dev/null; then
+          # Set linker for cross-compilation
+          if [ "${{ matrix.settings.target }}" = "aarch64-unknown-linux-gnu" ]; then
+            export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+            export RUSTFLAGS="-C linker=aarch64-linux-gnu-gcc"
+          elif [ "${{ matrix.settings.target }}" = "armv7-unknown-linux-gnueabihf" ]; then
+            export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
+            export RUSTFLAGS="-C linker=arm-linux-gnueabihf-gcc"
+          elif [ "${{ matrix.settings.target }}" = "aarch64-unknown-linux-musl" ]; then
+            # For musl, we need to use the correct linker and flags
+            export RUSTFLAGS="-C linker=musl-gcc -C link-arg=-lc -C link-arg=-lm"
+          elif echo "${{ matrix.settings.target }}" | grep "musl" > /dev/null; then
+            # For other musl targets
             export RUSTFLAGS="-C link-arg=-lc -C link-arg=-lm"
           fi
           
           # Set up cross-compilation environment
           export PKG_CONFIG_ALLOW_CROSS=1
           export RUST_BACKTRACE=1
-          
-          # No OpenSSL needed since we're using rustls
-          # export OPENSSL_STATIC=1
           
           ${{ matrix.settings.build }}
         shell: bash
