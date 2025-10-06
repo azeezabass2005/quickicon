@@ -158,8 +158,39 @@ jobs:
         with:
           path: artifacts
 
-      - name: Move artifacts
-        run: yarn artifacts
+      - name: Move artifacts manually
+        run: |
+          # Create the npm directory structure manually
+          mkdir -p npm
+          
+          # Create all the target directories first
+          mkdir -p npm/darwin-arm64
+          mkdir -p npm/darwin-x64
+          mkdir -p npm/win32-arm64-msvc
+          mkdir -p npm/win32-x64-msvc
+          mkdir -p npm/linux-arm64-gnu
+          mkdir -p npm/linux-arm-gnueabihf
+          mkdir -p npm/linux-x64-gnu
+          mkdir -p npm/linux-x64-musl
+          
+          # Copy each .node file to the correct directory
+          cp artifacts/bindings-aarch64-apple-darwin/*.node npm/darwin-arm64/quickicon.darwin-arm64.node
+          cp artifacts/bindings-x86_64-apple-darwin/*.node npm/darwin-x64/quickicon.darwin-x64.node
+          cp artifacts/bindings-aarch64-pc-windows-msvc/*.node npm/win32-arm64-msvc/quickicon.win32-arm64-msvc.node
+          cp artifacts/bindings-x86_64-pc-windows-msvc/*.node npm/win32-x64-msvc/quickicon.win32-x64-msvc.node
+          cp artifacts/bindings-aarch64-unknown-linux-gnu/*.node npm/linux-arm64-gnu/quickicon.linux-arm64-gnu.node
+          cp artifacts/bindings-armv7-unknown-linux-gnueabihf/*.node npm/linux-arm-gnueabihf/quickicon.linux-arm-gnueabihf.node
+          cp artifacts/bindings-x86_64-unknown-linux-gnu/*.node npm/linux-x64-gnu/quickicon.linux-x64-gnu.node
+          cp artifacts/bindings-x86_64-unknown-linux-musl/*.node npm/linux-x64-musl/quickicon.linux-x64-musl.node
+          
+          # Copy the main JS files to the root npm directory
+          cp index.js npm/
+          cp index.d.ts npm/
+          cp cli.js npm/
+          cp README.md npm/ || true
+          cp package.json npm/ || true
+          
+          echo "Manual artifacts copy completed successfully"
 
       - name: List packages
         run: ls -R ./npm
