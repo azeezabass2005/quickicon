@@ -2,6 +2,8 @@
 
 > Transform SVG files into React components instantly from your clipboard, local files, or remote URLs.
 
+![QuickIcon Demo](https://imgur.com/gtwviic.gif)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/quickicon.svg)](https://www.npmjs.com/package/quickicon)
 
