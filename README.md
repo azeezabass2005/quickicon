@@ -87,11 +87,16 @@ QuickIcon generates (`MyIcon.tsx`):
 ```typescript
 import React, {SVGProps} from "react";
 
+interface MyIconProps extends SVGProps<SVGSVGElement> {
+   size?: `${number}` | number;
+   color?: string;
+}
+
 const MyIcon = ({ 
     size = 24, 
     color = '#111827', 
     ...props 
-} : { size: number, color: string, props: SVGProps<SVGSVGElement> }) => {
+} : MyIconProps) => {
     return (
         <svg viewBox="0 0 24 24" fill="none" width={size} height={size} {...props}>
             <path d="M12 2L2 7l10 5 10-5-10-5z" fill={color} stroke={color}/>
