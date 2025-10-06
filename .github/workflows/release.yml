@@ -87,21 +87,15 @@ jobs:
       - name: Build (Unix)
         if: runner.os != 'Windows'
         run: |
-          export OPENSSL_STATIC=1
           export PKG_CONFIG_ALLOW_CROSS=1
-          
-          if [ "${{ matrix.target }}" = "aarch64-unknown-linux-gnu" ]; then
-            echo "Using vendored OpenSSL for aarch64 cross-compilation"
-            export OPENSSL_NO_VENDOR=0
-          fi
-          
           cargo build --release --target ${{ matrix.target }}
         shell: bash
 
       - name: Build (Windows)
         if: runner.os == 'Windows'
         run: |
-          $env:OPENSSL_STATIC = "1"
+          # No OpenSSL needed for rustls
+          # $env:OPENSSL_STATIC = "1"
           cargo build --release --target ${{ matrix.target }}
         shell: pwsh
 

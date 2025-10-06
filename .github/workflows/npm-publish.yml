@@ -79,6 +79,10 @@ jobs:
         if: contains(matrix.settings.target, 'musl')
         run: |
           sudo apt-get install -y musl-tools
+          # Specifically for aarch64 musl
+          if [ "${{ matrix.settings.target }}" = "aarch64-unknown-linux-musl" ]; then
+            sudo apt-get install -y gcc-aarch64-linux-musl
+          fi
 
       - name: Setup cross-compile tools (Linux ARM)
         if: contains(matrix.settings.target, 'aarch64-unknown-linux') || contains(matrix.settings.target, 'armv7')
@@ -88,14 +92,17 @@ jobs:
       - name: Build (Unix)
         if: runner.os != 'Windows'
         run: |
-          export OPENSSL_STATIC=1
-          export PKG_CONFIG_ALLOW_CROSS=1
-          
-          # For musl and ARM targets, use vendored OpenSSL
-          if echo "${{ matrix.settings.target }}" | grep -E "(musl|aarch64|armv7)" > /dev/null; then
-            echo "Using vendored OpenSSL for cross-compilation target: ${{ matrix.settings.target }}"
-            export OPENSSL_NO_VENDOR=0
+          # For musl targets, ensure math library is linked
+          if echo "${{ matrix.settings.target }}" | grep "musl" > /dev/null; then
+            export RUSTFLAGS="-C link-arg=-lc -C link-arg=-lm"
           fi
+          
+          # Set up cross-compilation environment
+          export PKG_CONFIG_ALLOW_CROSS=1
+          export RUST_BACKTRACE=1
+          
+          # No OpenSSL needed since we're using rustls
+          # export OPENSSL_STATIC=1
           
           ${{ matrix.settings.build }}
         shell: bash
@@ -103,7 +110,8 @@ jobs:
       - name: Build (Windows)
         if: runner.os == 'Windows'
         run: |
-          $env:OPENSSL_STATIC = "1"
+          # No OpenSSL needed for rustls
+          # $env:OPENSSL_STATIC = "1"
           ${{ matrix.settings.build }}
         shell: pwsh
 

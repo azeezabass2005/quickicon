@@ -28,12 +28,12 @@ QuickIcon is a blazingly fast command-line tool built with Rust that converts SV
 
 #### Linux / macOS
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yourusername/quickicon/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/azeezabass2005/quickicon/main/install.sh | bash
 ```
 
 #### Windows (PowerShell - Run as Administrator)
 ```powershell
-irm https://raw.githubusercontent.com/yourusername/quickicon/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/azeezabass2005/quickicon/main/install.ps1 | iex
 ```
 
 ### Via npm (All Platforms)
@@ -279,7 +279,7 @@ Contributions are welcome! Here's how you can help:
 
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/quickicon.git
+git clone https://github.com/azeezabass2005/quickicon.git
 cd quickicon
 
 # Build
@@ -331,15 +331,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Support & Community
 
-- 🐛 [Report a Bug](https://github.com/yourusername/quickicon/issues/new?labels=bug)
-- 💡 [Request a Feature](https://github.com/yourusername/quickicon/issues/new?labels=enhancement)
-- 💬 [Discussions](https://github.com/yourusername/quickicon/discussions)
-- 📖 [Documentation](https://github.com/yourusername/quickicon/wiki)
+- 🐛 [Report a Bug](https://github.com/azeezabass2005/quickicon/issues/new?labels=bug)
+- 💡 [Request a Feature](https://github.com/azeezabass2005/quickicon/issues/new?labels=enhancement)
+- 💬 [Discussions](https://github.com/azeezabass2005/quickicon/discussions)
+<!-- - 📖 [Documentation](https://github.com/azeezabass2005/quickicon/wiki) -->
 
 ## 📊 Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/quickicon?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/quickicon?style=social)
+![GitHub stars](https://img.shields.io/github/stars/azeezabass2005/quickicon?style=social)
+![GitHub forks](https://img.shields.io/github/forks/azeezabass2005/quickicon?style=social)
 ![npm downloads](https://img.shields.io/npm/dm/quickicon)
 
 ---
@@ -350,6 +350,6 @@ If QuickIcon saves you time, consider:
 - ⭐ Starring the repo
 - 🐦 Sharing on Twitter
 - 💼 Sharing on LinkedIn
-- ☕ [Buying me a coffee](https://buymeacoffee.com/yourusername)
+- ☕ [Buying me a coffee](https://buymeacoffee.com/rustyfola)
 
 **QuickIcon** - Because life's too short for manual SVG conversion! ⚡
