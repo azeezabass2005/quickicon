@@ -5,7 +5,7 @@ use crate::parser::{directory_parser};
 #[command(version)]
 pub struct Args {
     /// Use JavaScript instead of TypeScript (use --language=typescript to switch back)
-    #[arg(long, value_name = "LANG", value_parser = ["typescript", "javascript"])]
+    #[arg(long, short, value_name = "LANG", value_parser = ["typescript", "javascript"])]
     pub language: Option<String>,
 
     /// The name of the react component for the icon e.g EyeIcon
