@@ -14,14 +14,16 @@ function getBinaryPath() {
     binaryName = 'quickicon.exe';
   }
   
-  const optionalDeps = {
-    'linux-x64': '@quickicon/linux-x64-gnu',
-    'linux-arm64': '@quickicon/linux-arm64-gnu',
-    'darwin-x64': '@quickicon/darwin-x64',
-    'darwin-arm64': '@quickicon/darwin-arm64',
-    'win32-x64': '@quickicon/win32-x64-msvc',
-    'win32-arm64': '@quickicon/win32-arm64-msvc',
-  };
+const optionalDeps = {
+  'linux-x64-gnu': 'quickicon-linux-x64-gnu',
+  'linux-arm64-gnu': 'quickicon-linux-arm64-gnu', 
+  'linux-x64-musl': 'quickicon-linux-x64-musl',
+  'darwin-x64': 'quickicon-darwin-x64',
+  'darwin-arm64': 'quickicon-darwin-arm64',
+  'win32-x64-msvc': 'quickicon-win32-x64-msvc',
+  'win32-arm64-msvc': 'quickicon-win32-arm64-msvc',
+  'linux-arm-gnueabihf': 'quickicon-linux-arm-gnueabihf'
+};
   
   const key = `${platform}-${arch === 'x64' ? 'x64' : 'arm64'}`;
   const packageName = optionalDeps[key];

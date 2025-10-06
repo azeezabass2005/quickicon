@@ -7,6 +7,22 @@
   "bin": {
     "quickicon": "./cli.js"
   },
+  "napi": {
+    "name": "quickicon",
+    "triples": {
+      "defaults": false,
+      "additional": [
+        "aarch64-apple-darwin",
+        "aarch64-pc-windows-msvc",
+        "aarch64-unknown-linux-gnu", 
+        "armv7-unknown-linux-gnueabihf",
+        "x86_64-apple-darwin",
+        "x86_64-pc-windows-msvc",
+        "x86_64-unknown-linux-gnu",
+        "x86_64-unknown-linux-musl"
+      ]
+    }
+  },
   "files": [
     "index.js",
     "index.d.ts",
