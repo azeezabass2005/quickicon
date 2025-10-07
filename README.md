@@ -5,7 +5,7 @@
 ![QuickIcon Demo](https://imgur.com/gtwviic.gif)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://badge.fury.io/js/quickicon.svg)](https://www.npmjs.com/package/quickicon)
+<!-- [![npm version](https://badge.fury.io/js/quickicon.svg)](https://www.npmjs.com/package/quickicon) -->
 
 ## 🚀 What is QuickIcon?
 
@@ -38,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/azeezabass2005/quickicon/main/insta
 irm https://raw.githubusercontent.com/azeezabass2005/quickicon/main/install.ps1 | iex
 ```
 
-### Via npm (All Platforms)
+<!-- ### Via npm (All Platforms)
 
 ```bash
 npm install -g quickicon
@@ -47,7 +47,7 @@ npm install -g quickicon
 Or with yarn:
 ```bash
 yarn global add quickicon
-```
+``` -->
 
 ### Other Installation Methods
 
@@ -297,16 +297,16 @@ cargo test
 # Run locally
 cargo run -- --icon-name TestIcon --path ./test.svg
 
-# Build for npm
-npm install
-npm run build
-```
+# # Build for npm
+# npm install
+# npm run build
+# ```
 
 ## 📝 Roadmap
 
-- [ ] Support for Vue components
-- [ ] Support for Svelte components
-- [ ] Support for Angular components
+# - [ ] Support for Vue components
+# - [ ] Support for Svelte components
+# - [ ] Support for Angular components
 - [ ] Interactive mode with prompts
 - [ ] Batch processing multiple SVGs
 - [ ] Custom component templates
@@ -314,6 +314,7 @@ npm run build
 - [ ] SVG optimization options
 - [ ] GitHub Action integration
 - [ ] VS Code extension
+- [ ] Figma Plugin
 - [ ] Homebrew formula
 
 ## 🏗️ Tech Stack
@@ -346,7 +347,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ![GitHub stars](https://img.shields.io/github/stars/azeezabass2005/quickicon?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/azeezabass2005/quickicon?style=social)
-![npm downloads](https://img.shields.io/npm/dm/quickicon)
 
 ---
 

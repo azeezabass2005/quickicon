@@ -39,7 +39,7 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/azeezabass2005/quickic
 .\install.ps1
 ```
 
----
+<!-- ---
 
 ## npm/yarn Installation
 
@@ -78,7 +78,7 @@ Then use it via npx or in package.json scripts:
 npx quickicon --icon-name MyIcon
 ```
 
----
+--- -->
 
 ## Manual Installation
 
