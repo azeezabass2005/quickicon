@@ -300,7 +300,7 @@ cargo run -- --icon-name TestIcon --path ./test.svg
 # # Build for npm
 # npm install
 # npm run build
-# ```
+```
 
 ## 📝 Roadmap
 
