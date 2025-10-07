@@ -304,9 +304,6 @@ cargo run -- --icon-name TestIcon --path ./test.svg
 
 ## 📝 Roadmap
 
-# - [ ] Support for Vue components
-# - [ ] Support for Svelte components
-# - [ ] Support for Angular components
 - [ ] Interactive mode with prompts
 - [ ] Batch processing multiple SVGs
 - [ ] Custom component templates
