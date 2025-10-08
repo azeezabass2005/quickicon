@@ -123,6 +123,7 @@ export default MyIcon;
 | `--icon-name` | `-n` | Name of the React component (required) | - |
 | `--path` | `-p` | Path to local file or remote URL | Clipboard |
 | `--destination` | `-d` | Output directory for the component | `./public/assets/icon` |
+| `--size` | `-s` | The default size props of the component (number) | `24` |
 | `--language` | -l | To change the language to ts or js | `ts` |
 | `--default` | `-D` | Save settings to `quickicon.json` | false |
 
