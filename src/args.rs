@@ -1,5 +1,5 @@
 use clap::{Parser};
-use crate::parser::{directory_parser};
+use crate::parser::{directory_parser, size_parser};
 
 #[derive(Parser, PartialEq, Debug)]
 #[command(version)]
@@ -29,6 +29,16 @@ pub struct Args {
         value_parser = directory_parser
     )]
     pub destination: Option<String>,
+
+    /// Specify custom size of the icon you want to create, defaults to 24
+    #[
+        arg(
+            long,
+            short,
+            value_parser = size_parser
+        )
+    ]
+    pub size: Option<u32>,
 
     /// Remember the folder destination and the language for subsequent icons
     #[arg(
