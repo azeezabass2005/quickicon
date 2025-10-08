@@ -4,7 +4,8 @@ export function convertSvgToReact(
   svgContent: string,
   componentName: string,
   isJavascript: boolean,
-  destinationFolder: string
+  destinationFolder: string,
+  size: number,
 ): Promise<string>;
 
 export function validateSvg(content: string): boolean;
