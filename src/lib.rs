@@ -8,6 +8,7 @@ pub async fn convert_svg_to_react(
     component_name: String,
     is_javascript: bool,
     destination_folder: String,
+    size: u32,
 ) -> napi::Result<String> {
     use std::path::PathBuf;
     use crate::convert::SvgToReact;
@@ -16,6 +17,7 @@ pub async fn convert_svg_to_react(
     let config = Config {
         is_javascript,
         destination_folder: PathBuf::from(destination_folder),
+        size,
     };
 
     let converter = SvgToReact::new(svg_content, component_name, config);
