@@ -227,7 +227,7 @@ interface {}Props extends SVGProps<SVGSVGElement> {{
             r##"{}
 
 const {} = ({{ 
-    size = 24, 
+    size = {}, 
     color = '#111827', 
     ...props
 }}{}) => {{
@@ -246,6 +246,7 @@ export default {};
 "##,
             import_line,
             self.component_name,
+            self.config.size,
             props_type,
             indented_svg,
             self.component_name,
