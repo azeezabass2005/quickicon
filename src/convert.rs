@@ -28,10 +28,10 @@ impl SvgToReact {
     fn process_svg(&self) -> Result<String, Box<dyn std::error::Error>> {
         let mut svg = self.svg_string.clone();
 
-        svg = self.convert_attributes(&svg);
-        svg = self.convert_inline_styles(&svg);
-        svg = self.replace_dimensions(&svg);
-        svg = self.replace_colors(&svg);
+        svg = self.convert_attributes(&svg)?;
+        svg = self.convert_inline_styles(&svg)?;
+        svg = self.replace_dimensions(&svg)?;
+        svg = self.replace_colors(&svg)?;
         svg = self.spread_props(&svg);
 
         Ok(svg)
@@ -39,15 +39,15 @@ impl SvgToReact {
     }
 
     /// Converts all the hyphenated attributes to camelCase
-    fn convert_attributes(&self, svg: &str) -> String {
+    fn convert_attributes(&self, svg: &str) -> Result<String, Box<dyn std::error::Error>> {
         let attributes_map = self.get_attributes();
         let mut result = svg.to_string();
         for (html_attr, xml_attr) in attributes_map.iter() {
             let pattern = format!(r#"{}="#, html_attr);
-            let re = Regex::new(&pattern).unwrap();
+            let re = Regex::new(&pattern)?;
             result = re.replace_all(&result, format!(r#"{}="#, xml_attr)).to_string();
         }
-        result
+        Ok(result)
     }
 
     /// Returns all the mapping of HTML Attributes to XML Attributes
@@ -113,13 +113,13 @@ impl SvgToReact {
     }
 
     /// Converts the inline styles from html format to react double bracket format
-    fn convert_inline_styles(&self, svg: &str) -> String {
-        let re = Regex::new(r#"style="([^"]*)""#).unwrap();
-        re.replace_all(svg, |caps: &regex::Captures| {
+    fn convert_inline_styles(&self, svg: &str) -> Result<String, Box<dyn std::error::Error>> {
+        let re = Regex::new(r#"style="([^"]*)""#)?;
+        Ok(re.replace_all(svg, |caps: &regex::Captures| {
             let style_string = &caps[1];
             let style_object = self.parse_style_to_object(&style_string);
             format!("style={{{{ {} }}}}", style_object)
-        }).to_string()
+        }).to_string())
     }
 
     fn parse_style_to_object(&self, style_string: &str) -> String {   
@@ -163,19 +163,19 @@ impl SvgToReact {
     }
 
     /// Replace hardcoded width/height with props
-    fn replace_dimensions(&self, svg: &str) -> String {
+    fn replace_dimensions(&self, svg: &str) -> Result<String, Box<dyn std::error::Error>> {
         let mut result = svg.to_string();
         
-        let width_re = Regex::new(r#"width="(\d+)""#).unwrap();
+        let width_re = Regex::new(r#"width="(\d+)""#)?;
         result = width_re.replace(&result, "width={size}").to_string();
 
-        let height_re = Regex::new(r#"height="(\d+)""#).unwrap();
+        let height_re = Regex::new(r#"height="(\d+)""#)?;
         result = height_re.replace(&result, "height={size}").to_string();
 
-        result
+        Ok(result)
     }
 
-    fn replace_colors(&self, svg: &str) -> String {
+    fn replace_colors(&self, svg: &str) -> Result<String, Box<dyn std::error::Error>> {
         let mut result = svg.to_string();
         
         let color_patterns = vec![
@@ -186,7 +186,7 @@ impl SvgToReact {
         ];
 
         for pattern in color_patterns {
-            let re = Regex::new(pattern).unwrap();
+            let re = Regex::new(pattern)?;
             result = re
                 .replace_all(&result, |caps: &regex::Captures| {
                     let matched = &caps[0];
@@ -201,7 +201,7 @@ impl SvgToReact {
                 .to_string();
         }
 
-        result
+        Ok(result)
     }
 
     fn spread_props(&self, svg: &str) -> String {
