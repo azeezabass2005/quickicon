@@ -3,7 +3,7 @@ use crate::{args::Args, parser::svg_validator};
 use arboard::Clipboard;
 use regex::Regex;
 
-pub async fn get_content(args: &Args) -> Result<String, Box<dyn std::error::Error>> {
+pub async fn get_content(args: &Args) -> Result<String, Box<dyn std::error::Error>> {    
     match &args.path {
         Some(path) => {
             // What I want to do here is read the file or read the url

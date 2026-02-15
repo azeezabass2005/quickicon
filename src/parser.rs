@@ -1,4 +1,4 @@
-use std::{path::PathBuf};
+use std::{fs, path::PathBuf};
 
 use regex::Regex;
 
@@ -9,7 +9,15 @@ pub fn directory_parser(s: &str) -> Result<String, String> {
             Ok(s.to_string())
         },
         Err(_) => {
-            Err("Invalid icon destination".to_string())
+            let new_directory = fs::create_dir(s);
+            match new_directory {
+                Ok(_) => {
+                    return Ok(s.to_string());
+                },
+                Err(_) => {
+                    return Err("Directory does not exist and creation failed".to_string());
+                }
+            }
         }
     }
 }
